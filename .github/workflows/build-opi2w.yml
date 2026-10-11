@@ -40,7 +40,6 @@ jobs:
           armbian_board: 'orangepizero2w'
           armbian_release: ${{ inputs.release }}
           armbian_target: 'build'
-          armbian_branch: 'edge'
-          # Add extra configurations if needed
-          # e.g., BUILD_DESKTOP: ${{ inputs.build_desktop }}
-          # BUILD_MINIMAL: 'yes'
+          armbian_kernel_branch: 'edge'
+          BUILD_DESKTOP: 'no'
+          BUILD_MINIMAL: 'yes'
