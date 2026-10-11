@@ -1,0 +1,45 @@
+
+name: Build Armbian for Orange Pi Zero 2W
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Ubuntu'
+        required: true
+        default: 'resolute'
+        type: string
+      build_desktop:
+        description: 'Build Desktop Image? (no/yes)'
+        required: true
+        default: 'no'
+        type: string
+
+jobs:
+  build-armbian:
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+          swap-storage: false
+
+      - name: Run Armbian Build
+        uses: armbian/build@main
+        with:
+          armbian_token: ${{ secrets.GITHUB_TOKEN }}
+          armbian_board: 'orangepizero2w'
+          armbian_release: ${{ inputs.release }}
+          armbian_target: 'build'
+          # Add extra configurations if needed
+          # e.g., BUILD_DESKTOP: ${{ inputs.build_desktop }}
+          BUILD_MINIMAL: 'yes'
