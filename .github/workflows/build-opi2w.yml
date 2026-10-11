@@ -36,3 +36,18 @@ jobs:
             BUILD_DESKTOP=no \
             BUILD_MINIMAL=yes \
             KERNEL_CONFIGURE=no
+      - name: Run Armbian Build
+        run: |
+          sudo ./compile.sh \
+            BOARD=orangepizero2w \
+            BRANCH=current \
+            RELEASE=${{ inputs.release }} \
+            BUILD_DESKTOP=no \
+            BUILD_MINIMAL=yes \
+            KERNEL_CONFIGURE=no
+
+      - name: Upload Armbian Image Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: orange-pi-zero-2w-image
+          path: output/images/*.img
