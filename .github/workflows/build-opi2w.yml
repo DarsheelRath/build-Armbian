@@ -6,12 +6,12 @@ on:
       release:
         description: 'OS Release (e.g., resolute, noble, trixie, bookworm)'
         required: true
-        default: 'oracular'
+        default: 'bookworm'
         type: string
 
 jobs:
   build-armbian:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       # UPGRADED: v4 -> v7 (Brings Node 24 runtime, ESM, and better credential security)
       - name: Checkout Repository
@@ -32,7 +32,7 @@ jobs:
         run: |
           ./compile.sh \
             BOARD=orangepizero2w \
-            BRANCH=vendor \
+            BRANCH=edge \
             RELEASE=${{ inputs.release }} \
             BUILD_DESKTOP=no \
             BUILD_MINIMAL=yes \
