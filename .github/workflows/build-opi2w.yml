@@ -1,7 +1,13 @@
 name: Build Armbian for Orange Pi Zero 2W
 
 on:
-  workflow_dispatch: # This adds the "Run workflow" manual button in GitHub
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'OS Release (e.g., resolute, noble, trixie, bookworm)'
+        required: true
+        default: 'bookworm'
+        type: string
 
 jobs:
   build-armbian:
@@ -29,7 +35,7 @@ jobs:
           ./compile.sh \
             BOARD=orangepizero2w \
             BRANCH=current \
-            RELEASE=bookworm \
+            RELEASE=${{ inputs.release }} \
             BUILD_DESKTOP=no \
             BUILD_MINIMAL=yes \
             KERNEL_CONFIGURE=no
