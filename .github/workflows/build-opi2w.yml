@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo ./compile.sh \
             BOARD=orangepizero2w \
-            BRANCH=current \
+            BRANCH=edge \
             RELEASE=${{ inputs.release }} \
             BUILD_DESKTOP=no \
             BUILD_MINIMAL=yes \
