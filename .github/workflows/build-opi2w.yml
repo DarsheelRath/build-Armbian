@@ -4,26 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       release:
-        description: 'OS Release (e.g., resolute, noble, trixie, bookworm)'
+        description: 'OS Release (e.g., forky, trixie, bookworm)'
         required: true
-        default: 'bookworm'
+        default: 'forky'
         type: string
 
 jobs:
   build-armbian:
-
     runs-on: ubuntu-24.04
 
     steps:
-      # UPGRADED: v4 -> v7
       - name: Checkout Repository
         uses: actions/checkout@v7
 
-      # UPGRADED: v3 -> v4
+      - name: Install Host QEMU & Binfmt Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static binfmt-support
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
 
-      # UPGRADED: v3 -> v4
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v4
 
@@ -40,7 +41,6 @@ jobs:
             BUILD_MINIMAL=yes \
             KERNEL_CONFIGURE=no
 
-      # UPGRADED: v4 -> v7
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
