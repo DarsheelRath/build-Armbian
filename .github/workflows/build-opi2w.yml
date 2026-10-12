@@ -6,7 +6,7 @@ on:
       release:
         description: 'OS Release (e.g., resolute, noble, trixie, bookworm)'
         required: true
-        default: 'resolute'
+        default: 'oracular'
         type: string
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo ./compile.sh \
             BOARD=orangepizero2w \
-            BRANCH=edge \
+            BRANCH=vendor \
             RELEASE=${{ inputs.release }} \
             BUILD_DESKTOP=no \
             BUILD_MINIMAL=yes \
