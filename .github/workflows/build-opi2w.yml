@@ -11,8 +11,8 @@ on:
 
 jobs:
   build-armbian:
-    # UPGRADED: ubuntu-24.04 -> ubuntu-26.04
-    runs-on: ubuntu-26.04
+
+    runs-on: ubuntu-24.04
 
     steps:
       # UPGRADED: v4 -> v7
