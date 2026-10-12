@@ -1,47 +1,43 @@
 name: Build Armbian for Orange Pi Zero 2W
 
 on:
-  workflow_dispatch:
-    inputs:
-      release:
-        description: 'OS Release (e.g., resolute, noble, trixie, bookworm)'
-        required: true
-        default: 'bookworm'
-        type: string
+  workflow_dispatch: # This adds the "Run workflow" manual button in GitHub
 
 jobs:
   build-armbian:
-    runs-on: ubuntu-latest
+    # UPGRADED: ubuntu-24.04 -> ubuntu-26.04
+    runs-on: ubuntu-26.04
+
     steps:
-      # UPGRADED: v4 -> v7 (Brings Node 24 runtime, ESM, and better credential security)
+      # UPGRADED: v4 -> v7
       - name: Checkout Repository
         uses: actions/checkout@v7
 
+      # UPGRADED: v3 -> v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      # UPGRADED: v3 -> v4
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v4
+
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: false
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: false
-          swap-storage: false
 
       - name: Run Armbian Build
         run: |
           ./compile.sh \
             BOARD=orangepizero2w \
-            BRANCH=edge \
-            RELEASE=${{ inputs.release }} \
+            BRANCH=current \
+            RELEASE=bookworm \
             BUILD_DESKTOP=no \
             BUILD_MINIMAL=yes \
             KERNEL_CONFIGURE=no
 
-      # UPGRADED: v4 -> v7 (Supports unzipped artifact uploads)
-      - name: Upload Armbian Image Artifact
+      # UPGRADED: v4 -> v7
+      - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: armbian_image_unzipped
-          path: output/images/*.img
+          name: armbian_image
+          path: output/images/*
           archive: false
