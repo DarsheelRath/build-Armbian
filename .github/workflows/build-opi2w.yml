@@ -13,8 +13,9 @@ jobs:
   build-armbian:
     runs-on: ubuntu-24.04
     steps:
+      # UPGRADED: v4 -> v7 (Brings Node 24 runtime, ESM, and better credential security)
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
@@ -31,12 +32,13 @@ jobs:
         run: |
           ./compile.sh \
             BOARD=orangepizero2w \
-            BRANCH=edge \
+            BRANCH=vendor \
             RELEASE=${{ inputs.release }} \
             BUILD_DESKTOP=no \
             BUILD_MINIMAL=yes \
             KERNEL_CONFIGURE=no
 
+      # UPGRADED: v4 -> v7 (Supports unzipped artifact uploads)
       - name: Upload Armbian Image Artifact
         uses: actions/upload-artifact@v7
         with:
